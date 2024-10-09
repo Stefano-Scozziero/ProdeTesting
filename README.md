@@ -42,9 +42,9 @@ Una aplicación de Futbol para los amantes de las timbas.
 
 - Proporciona una descripción detallada de los partidos en tiempo real.
 
-<img src="./src/screenshot/Predicts.png" width="300" >
-<img src="./src/screenshot/Predicts-Date-Old.png" width="300" >
-<img src="./src/screenshot/Fixture.png" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FPredicts.png?alt=media&token=af6eb701-a4f3-4621-8758-65fbb725c669" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FPredicts-Date-Old.png?alt=media&token=122baac0-c62e-4343-a739-7ba6a4f11fa1" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FFixture.png?alt=media&token=ba31cccd-0384-44fd-98ff-cb107d888422" width="300" >
 
 ### Navegación Lateral
 
@@ -96,9 +96,9 @@ Una aplicación de Futbol para los amantes de las timbas.
 - **Pestaña 7 - Preferencias:** Preferencias del usuario. (tema oscuro)
 - **Pestaña 8 - Cerrar Sesion:** Cierre de sesion.
 
-<img src="./src/screenshot/Drawer.png" width="300" >
-<img src="./src/screenshot/Register.png" width="300" >
-<img src="./src/screenshot/profile.png" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FDrawer.png?alt=media&token=6d53aec2-de8b-453e-9463-233fbd2e8933" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FRegister.png?alt=media&token=1a38d010-6ac5-448b-8b3a-8ab5c52acf5f" width="300" >
+<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2Fprofile.png?alt=media&token=19c381fd-da41-4236-887b-e523b6ffae2d" width="300" >
 
 ## Tecnologías Utilizadas
 
@@ -111,11 +111,11 @@ Una aplicación de Futbol para los amantes de las timbas.
 
 ## Instalación
 
-1. Clona el repositorio: `git clone https://github.com/Stefano-Scozziero/coder-e_commerce.git`
+1. Clona el repositorio: `git clone https://github.com/Stefano-Scozziero/ProdeTesting.git`
 2. Instala las dependencias: `npm install`
 3. Configura las claves de API para servicios externos (Firebase, etc.).
 4. Configura las credenciales de Firebase en tu proyecto.
-5. Ejecuta la aplicación: `npm start`
+5. Ejecuta la aplicación: `npx expo run:android`
 
 ## Contacto
 
