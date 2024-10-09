@@ -49,7 +49,7 @@ Una aplicación de Futbol para los amantes de las timbas.
 
 | <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FDrawer.png?alt=media&token=6d53aec2-de8b-453e-9463-233fbd2e8933" width="300" /> | <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FForgotYourPass.png?alt=media&token=5e908c50-465f-4023-9bf5-f8fe1c88f677" width="300" /> | 
 |---|---| 
-| <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2Fprofile.png?alt=media&token=19c381fd-da41-4236-887b-e523b6ffae2d" width="300" /> |
+| <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2Fprofile.png?alt=media&token=19c381fd-da41-4236-887b-e523b6ffae2d" width="300" /> 
 
 
 
