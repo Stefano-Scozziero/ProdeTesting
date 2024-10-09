@@ -9,8 +9,8 @@ Una aplicación de Futbol para los amantes de las timbas.
 - **Acceso seguro:** Solo los usuarios autenticados pueden acceder a la pantalla de perfil y realizar compras.
 - **Información del usuario:** Muestra detalles del usuario, como nombre y dirección.
 
-<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FLogin.png?alt=media&token=f30a26d6-922d-4425-940d-c71baaa261b5" width="300" >
-<img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FRegister.png?alt=media&token=1a38d010-6ac5-448b-8b3a-8ab5c52acf5f" width="300" >
+| <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FLogin.png?alt=media&token=f30a26d6-922d-4425-940d-c71baaa261b5" width="300" /> | <img src="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/images%2FRegister.png?alt=media&token=1a38d010-6ac5-448b-8b3a-8ab5c52acf5f" width="300" /> |
+|---|---|
 
 ### Autenticación con Firebase, Google y Facebook.
 
