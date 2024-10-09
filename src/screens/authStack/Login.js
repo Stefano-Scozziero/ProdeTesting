@@ -40,14 +40,13 @@ const Login = ({navigation}) =>  {
         await GoogleSignin.hasPlayServices()
         const userInfo = await GoogleSignin.signIn()
 
-        const idToken = userInfo?.data?.idToken;
-        if (!userInfo.data.idToken) {
-          console.error("El idToken no se pudo obtener.");
-          return;
+        // Verifica si userInfo o userInfo.data.idToken son nulos o indefinidos
+        if (!userInfo || !userInfo.data || !userInfo.data.idToken) {
+          return; // Sale de la función si el usuario canceló la autenticación
         }
 
         setIsLoggingIn(true)
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+        const googleCredential = auth.GoogleAuthProvider.credential(userInfo?.data?.idToken)
         const userCredential = await auth().signInWithCredential(googleCredential)
         if (userCredential && userCredential.user) {
           const { email, uid, displayName, photoURL, emailVerified } = userCredential.user

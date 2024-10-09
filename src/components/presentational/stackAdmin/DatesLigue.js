@@ -210,73 +210,74 @@ const DatesLigue = () => {
     <ImageBackground source={require('../../../../assets/fondodefinitivo.png')} style={[styles.container, !portrait && styles.landScape]}>
       <View style={styles.containerPicker}>
         <View style={styles.containerText}>
-        <TouchableOpacity style={styles.touchableContainer} onPress={() => divisionSelectorRef.current.open()}>
           <ModalSelector
             data={divisionOptions}
             initValue={selectedDivision}
             onChange={(option) => setSelectedDivision(option.key)}
             style={styles.picker}
             optionTextStyle={styles.pickerText}
-            selectStyle={{ borderWidth: 0 }}
-            selectedItem={selectedDivision}
             selectedItemTextStyle={styles.selectedItem}
             initValueTextStyle={styles.initValueTextStyle}
-            backdropPressToClose={true}
             animationType='fade'
             cancelText='Salir'
             cancelTextStyle={{ color: colors.black }}
             ref={divisionSelectorRef}
-          />
-          <Text style={styles.pickerArrow}>▼</Text>
-        </TouchableOpacity>
-         
+            accessible={true}
+            touchableAccessible={true}
+          >
+            <TouchableOpacity style={styles.touchableContainer}>
+              <Text style={styles.selectedItemText}>{selectedDivision}</Text>
+              <Text style={styles.pickerArrow}>▼</Text>
+            </TouchableOpacity>
+          </ModalSelector>
         </View>
         <View style={styles.containerText}>
-        <TouchableOpacity style={styles.touchableContainer} onPress={() => tournamentSelectorRef.current.open()}>
           <ModalSelector
             data={tournamentOptions}
             initValue={selectedTournament}
             onChange={(option) => setSelectedTournament(option.key)}
-            optionTextStyle={styles.pickerText}
             style={styles.picker}
-            selectStyle={{ borderWidth: 0 }}
-            selectedItem={selectedTournament}
+            optionTextStyle={styles.pickerText}
             selectedItemTextStyle={styles.selectedItem}
             initValueTextStyle={styles.initValueTextStyle}
-            backdropPressToClose={true}
             animationType='fade'
             cancelText='Salir'
             cancelTextStyle={{ color: colors.black }}
             ref={tournamentSelectorRef}
-          />
-          <Text style={styles.pickerArrow}>▼</Text>
-        </TouchableOpacity>
+            accessible={true}
+            touchableAccessible={true}
+          >
+            <TouchableOpacity style={styles.touchableContainer}>
+              <Text style={styles.selectedItemText}>{selectedTournament}</Text>
+              <Text style={styles.pickerArrow}>▼</Text>
+            </TouchableOpacity>
+          </ModalSelector>
           
         </View>
         <View  style={[styles.containerText, dateOptions.length === 0 ? styles.disabledPicker : null]}>
-        <TouchableOpacity style={styles.touchableContainer} onPress={() => dateSelectorRef.current.open()}>
           <ModalSelector
             data={dateOptions}
-            initValue={dateOptions.length > 0 ? `Fecha ${selectedDate}` : null}
-            onChange={(option) => setSelectedDate(option.key) }
+            initValue={dateOptions.length > 0 ? `Fecha ${selectedDate}` : 'Selecciona una Fecha'}
+            onChange={(option) => setSelectedDate(option.key)}
+            style={dateOptions.length === 0 ? styles.disabledPicker : styles.picker}
             optionTextStyle={styles.pickerText}
-            style={styles.picker}
-            selectStyle={{ borderWidth: 0 }}
-            selectedItem={`Fecha ${selectedDate}`}
             selectedItemTextStyle={styles.selectedItem}
             initValueTextStyle={styles.initValueTextStyle}
-            backdropPressToClose={true}
             animationType='fade'
             cancelText='Salir'
             cancelTextStyle={{ color: colors.black }}
             disabled={dateOptions.length === 0}
             ref={dateSelectorRef}
-            
-          />
-          { dateOptions.length !== 0 ? (
-            <Text style={styles.pickerArrow}>▼</Text>) : null
-          }
-        </TouchableOpacity>
+            accessible={true}
+            touchableAccessible={true}
+          >
+            <TouchableOpacity style={styles.touchableContainer} disabled={dateOptions.length === 0}>
+              <Text style={styles.selectedItemText}>
+                {dateOptions.length > 0 ? `Fecha ${selectedDate}` : 'Sin Fechas Disponibles'}
+              </Text>
+              {dateOptions.length !== 0 && <Text style={styles.pickerArrow}>▼</Text>}
+            </TouchableOpacity>
+          </ModalSelector>
           
           
         </View>
@@ -314,42 +315,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerPicker: {
-    width: '100%',
-    height: 170,
+    width: '90%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 10,
   },
   landScape: {
     width: '100%',
     height: '60%',
   },
-  containerText: {
-    width: '95%',
-    marginVertical: 5,
+  touchableContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 15,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.orange,
-    alignItems: 'center', 
     backgroundColor: colors.white,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    borderColor: colors.gray,
-    flexDirection: 'row',
-    justifyContent: 'space-between', 
-    paddingHorizontal: 20
-  },
-  touchableContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    borderColor: colors.orange,
+    borderWidth: 1,
   },
   picker: {
     width: '100%',
     borderRadius: 10,
+    marginVertical: 5,
   },
   pickerText: {
     color: colors.black,
@@ -357,10 +350,11 @@ const styles = StyleSheet.create({
   },
   initValueTextStyle: {
     color: colors.black,
+    fontSize: 16,
   },
   pickerArrow: {
     color: colors.black,
-    fontSize: 18,
+    fontSize: 15,
   },
   containerFlatlist: {
     flex: 1, // Use flex to fill the remaining space
@@ -368,12 +362,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  selectedItemText: {
+    color: colors.black,
+    fontSize: 16,
+  },
   selectedItem: {
     color: colors.orange,
   },
   disabledPicker: {
-    backgroundColor: 'rgba(0,0,0,0.0)', 
-    elevation: 0,
-    borderWidth: 0,
+    backgroundColor: 'rgba(0,0,0,0.1)', 
+    borderWidth: 1,
+    borderColor: colors.gray,
   },
 });
