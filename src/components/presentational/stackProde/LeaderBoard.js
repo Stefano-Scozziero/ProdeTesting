@@ -121,7 +121,6 @@ const LeaderBoard = ({ navigation }) => {
               selectedItem={selectedDivision}
               selectedItemTextStyle={styles.selectedItem}
               initValueTextStyle={styles.initValueTextStyle}
-              backdropPressToClose={true}
               animationType='fade'
               cancelText='Salir'
               cancelTextStyle={{ color: colors.black }}
@@ -142,7 +141,6 @@ const LeaderBoard = ({ navigation }) => {
               selectedItem={selectedTournament}
               selectedItemTextStyle={styles.selectedItem}
               initValueTextStyle={styles.initValueTextStyle}
-              backdropPressToClose={true}
               animationType='fade'
               cancelText='Salir'
               cancelTextStyle={{ color: colors.black }}
