@@ -8,13 +8,13 @@ import DrawerNavigator from './DrawerNavigator'
 import AuthStack from './AuthStack'
 import LoadingScreen from '../components/presentational/LoadingSpinner'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import auth from '@react-native-firebase/auth'
-import { db } from '../app/services/firebase/config'
+import { database, auth } from '../app/services/firebase/config'
 
 const MainNavigator = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth)
   const [isLoading, setIsLoading] = useState(true)
+  const db = database()
 
   const checkIfAdmin = async (userId) => {
     const adminRef = db.ref(`admins/${userId}`)

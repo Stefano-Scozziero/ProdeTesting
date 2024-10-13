@@ -5,7 +5,7 @@ import EmptyListComponent from '../EmptyListComponent'
 import Error from '../Error'
 import { OrientationContext } from '../../../utils/globals/context'
 import ModalSelector from 'react-native-modal-selector'
-import { db } from '../../../app/services/firebase/config'
+import { database } from '../../../app/services/firebase/config'
 import colors from '../../../utils/globals/colors'
 import DatesByLeader from '../DatesByLeader'
 
@@ -26,6 +26,7 @@ const LeaderBoard = ({ navigation }) => {
   const tournamentSelectorRef = useRef(null)
   const [divisionOptions, setDivisionOptions] = useState([])
   const [tournamentOptions, setTournamentOptions] = useState([])
+  const db = database();
   
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import Error from '../presentational/Error'
 import { OrientationContext } from '../../utils/globals/context'
 import ModalSelector from 'react-native-modal-selector'
 import CardFixture from '../presentational/CardFixture'
-import { db } from '../../app/services/firebase/config'
+import { database } from '../../app/services/firebase/config'
 import colors from '../../utils/globals/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
@@ -23,6 +23,7 @@ const FixtureDates = ({ navigation }) => {
   const tournamentSelectorRef = useRef(null)
   const [divisionOptions, setDivisionOptions] = useState([])
   const [tournamentOptions, setTournamentOptions] = useState([])
+  const db = database();
 
   useEffect(() => {
     const onValueChange = db.ref('/datos/fixture').on('value', (snapshot) => {

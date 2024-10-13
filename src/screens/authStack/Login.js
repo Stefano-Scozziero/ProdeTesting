@@ -11,8 +11,7 @@ import { loginSchema } from '../../utils/validations/authSchema'
 import { deleteSession, insertSession } from '../../utils/db'
 import ModalMessage from '../../components/presentational/modal/ModalMessage'
 import { GoogleSignin, statusCodes} from '@react-native-google-signin/google-signin'
-import auth from '@react-native-firebase/auth'
-import { db } from '../../app/services/firebase/config'
+import { database, auth } from '../../app/services/firebase/config'
 import LoadingSpinner from '../../components/presentational/LoadingSpinner2'
 
 const Login = ({navigation}) =>  {
@@ -24,6 +23,7 @@ const Login = ({navigation}) =>  {
     const [errorPassword, setErrorPassword] = useState("")
     const [modalVisible, setModalVisible] = useState(false)
     const [isLoggingIn, setIsLoggingIn] = useState(false)
+    const db = database()
 
     const handlerCloseModal = () => {
       setModalVisible(false)

@@ -11,10 +11,16 @@ import LoadingSpinner from './LoadingSpinner';
 import CustomModal from './modal/CustomModal';
 import colors from '../../utils/globals/colors';
 import fonts from '../../utils/globals/fonts';
-import { db, storage } from '../../app/services/firebase/config';
-import auth from '@react-native-firebase/auth';
+import { auth, database, storage } from '../../app/services/firebase/config';
 import ModalCamera from './modal/ModalCamera';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { useNavigation } from '@react-navigation/native';
+
+// Importaciones adicionales
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../features/auth/authSlice'; // Asegúrate de que la ruta sea correcta
+import { deleteSession } from '../../utils/db';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const Profile = () => {
   const [username, setUsername] = useState('');
@@ -23,20 +29,14 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [modalCameraVisible, setModalCameraVisible] = useState(false);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
   const portrait = useContext(OrientationContext);
   const [isLoading, setIsLoading] = useState(true);
   const user = auth().currentUser;
-
-  // Solicita permisos al montar el componente
-  useEffect(() => {
-    (async () => {
-      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-      const mediaLibraryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (cameraStatus.status !== 'granted' || mediaLibraryStatus.status !== 'granted') {
-        alert('Se requieren permisos para acceder a la cámara y galería.');
-      }
-    })();
-  }, []);
+  const db = database();
+  const storageInstance = storage();
+  const dispatch = useDispatch();
+  const [accountDeletedModalVisible, setAccountDeletedModalVisible] = useState(false);
 
   // useEffect para cargar los datos de perfil desde la base de datos
   useEffect(() => {
@@ -60,6 +60,67 @@ const Profile = () => {
 
   const handlerCloseModal = () => setModalVisible(false);
   const handlerCloseModalCamera = () => setModalCameraVisible(false);
+
+  // Funciones adicionales
+  const clearUserData = async () => {
+    try {
+      // Si el usuario inició sesión con Google, cierra sesión de Google
+      if (user?.providerData?.some(provider => provider.providerId === 'google.com')) {
+        await GoogleSignin.signOut();
+      }
+      // Limpia el estado de Redux
+      dispatch(clearUser());
+      // Elimina la sesión almacenada
+      await deleteSession();
+    } catch (error) {
+      console.error('Error during user data cleanup:', error);
+    }
+  };
+
+  // Función para confirmar y eliminar la cuenta
+  const confirmDeleteAccount = async () => {
+    setDeleteConfirmVisible(false);
+    setIsLoading(true);
+    try {
+      if (user) {
+        // Eliminar datos del perfil en la base de datos
+        await db.ref(`/profiles/${user.uid}`).remove();
+
+        // Verificar si hay una imagen antes de intentar eliminarla
+        if (image) {
+          const imageRef = storageInstance.ref(`profiles/${user.uid}/profilePicture.png`);
+          await imageRef.delete().catch((storageError) => {
+            if (storageError.code !== 'storage/object-not-found') {
+              throw storageError;
+            }
+          });
+        }
+
+        // Eliminar la cuenta de usuario
+        await user.delete();
+
+        // Realizar limpieza adicional
+        await clearUserData();
+
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log('Error al eliminar la cuenta:', error);
+
+      if (error.code === 'auth/requires-recent-login') {
+        setModalVisible(true);
+        setModalMessage('Por razones de seguridad, por favor vuelve a iniciar sesión y vuelve a intentar.');
+      } else {
+        setModalVisible(true);
+        setModalMessage(`Error al eliminar la cuenta: ${error.message}`);
+      }
+    }
+  };
+
+  // Función para manejar el clic en "Eliminar cuenta"
+  const handleDeleteAccount = () => {
+    setDeleteConfirmVisible(true);
+  };
 
   // Función para elegir una imagen desde la cámara o la galería
   const pickImage = async (camera, cameraType = ImagePicker.CameraType.front) => {
@@ -102,7 +163,7 @@ const Profile = () => {
         const blob = await response.blob();
 
         // Sube el blob a Firebase Storage
-        const reference = storage().ref(`profiles/${user.uid}/profilePicture.png`);
+        const reference = storageInstance.ref(`profiles/${user.uid}/profilePicture.png`);
         await reference.put(blob);
 
         // Obtiene la URL de descarga
@@ -117,6 +178,7 @@ const Profile = () => {
       } catch (error) {
         setModalVisible(true);
         setModalMessage('Error al subir la imagen');
+        console.log('Error al subir la imagen:', error);
       } finally {
         setIsLoading(false);
       }
@@ -151,8 +213,12 @@ const Profile = () => {
     }
   };
 
+  
+
+
+
   // Mostrar spinner si se está cargando
-  if (isLoading) return <LoadingSpinner message={'Actualizando Imagen...'} />;
+  if (isLoading) return <LoadingSpinner message={'Procesando...'} />;
 
   return (
     <ImageBackground source={require('../../../assets/fondodefinitivo.png')} style={[styles.main, !portrait && styles.mainLandScape]}>
@@ -179,7 +245,7 @@ const Profile = () => {
             onChangeText={(text) => setPhone(text)}
           />
           <AddButton title={"Actualizar Datos"} onPress={onSubmit} />
-          <DeleteButton title='Eliminar cuenta' />
+          <DeleteButton title='Eliminar cuenta' onPress={handleDeleteAccount} />
         </View>
       </View>
       <CustomModal
@@ -188,6 +254,14 @@ const Profile = () => {
         modalVisible={modalVisible}
         onPrimaryAction={handlerCloseModal}
         onClose={handlerCloseModal}
+      />
+      <CustomModal
+        text="¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer."
+        secondaryButtonText="Cancelar"
+        primaryButtonText="Eliminar"
+        modalVisible={deleteConfirmVisible}
+        onPrimaryAction={confirmDeleteAccount}
+        onClose={() => setDeleteConfirmVisible(false)}
       />
       <ModalCamera
         textButton='Volver'
@@ -204,63 +278,63 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        width: '100%',
-        height: '100%'
-    },
-    mainLandScape: {
-        flexDirection: 'row'
-    },
-    container: {
-        flex: 1,
-        marginTop: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    containerLandScape: {
-        flexDirection: 'row',
-        marginTop: 0,
-    },
-    image: {
-        width: 210,
-        height: 210,
-        borderRadius: 105,
-        overflow: 'hidden', 
-        borderWidth: 2,
-        borderColor: colors.black,
-    },
-    imageLandScape: {
-        width: 150,
-        height: 150,
-        bottom: '4%'
-    },
-    containerImage: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    Button: {
-        marginTop: 10,
-        alignItems: 'center',
-        width: 300
-    },
-    ButtonLandScape: {
-        flexDirection: 'column',
-        marginTop: 0,
-        bottom: '3%'
-    },
-    title: {
-        fontSize: 24, // Aumentar el tamaño de la fuente
-        textAlign: 'center',
-        color: colors.black,
-        bottom: 10,
-        fontFamily: fonts.russoOne,
-    },
-    text: {
-        fontSize: 19,
-        top: 7,
-        color: colors.white,
-        fontFamily: fonts.russoOne,
-    },
+  main: {
+    flex: 1,
+    width: '100%',
+    height: '100%'
+  },
+  mainLandScape: {
+    flexDirection: 'row'
+  },
+  container: {
+    flex: 1,
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  containerLandScape: {
+    flexDirection: 'row',
+    marginTop: 0,
+  },
+  image: {
+    width: 210,
+    height: 210,
+    borderRadius: 105,
+    overflow: 'hidden', 
+    borderWidth: 2,
+    borderColor: colors.black,
+  },
+  imageLandScape: {
+    width: 150,
+    height: 150,
+    bottom: '4%'
+  },
+  containerImage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  Button: {
+    marginTop: 10,
+    alignItems: 'center',
+    width: 300
+  },
+  ButtonLandScape: {
+    flexDirection: 'column',
+    marginTop: 0,
+    bottom: '3%'
+  },
+  title: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: colors.black,
+    bottom: 10,
+    fontFamily: fonts.russoOne,
+  },
+  text: {
+    fontSize: 19,
+    top: 7,
+    color: colors.white,
+    fontFamily: fonts.russoOne,
+  },
 });

@@ -8,9 +8,8 @@ import { useDispatch } from 'react-redux';
 import { setUser, setAdmin } from '../../features/auth/authSlice';
 import { registerSchema } from '../../utils/validations/authSchema';
 import { deleteSession, insertSession } from '../../utils/db';
-import CustomModal from '../../components/presentational/modal/CustomModal';  // Importa el nuevo modal genérico
-import auth from '@react-native-firebase/auth';
-import { db } from '../../app/services/firebase/config';
+import CustomModal from '../../components/presentational/modal/CustomModal';
+import { database, auth } from '../../app/services/firebase/config';
 import LoadingSpinner from '../../components/presentational/LoadingSpinner2';
 
 const Register = ({ navigation }) => {
@@ -25,6 +24,7 @@ const Register = ({ navigation }) => {
   const [modalMessage, setModalMessage] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [navigateToLogin, setNavigateToLogin] = useState(false); // Nuevo estado para manejar la navegación
+  const db = database()
 
   const handlerCloseModal = () => {
     setModalVisible(false);

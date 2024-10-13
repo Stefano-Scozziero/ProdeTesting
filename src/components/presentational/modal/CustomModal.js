@@ -42,7 +42,7 @@ const CustomModal = ({
           {/* Mostrar botón principal si se pasa el texto */}
           {primaryButtonText && (
             <TouchableOpacity onPress={onPrimaryAction} style={styles.button}>
-              <Text style={styles.buttonText}>{primaryButtonText}</Text>
+              <Text style={styles.buttonTextPrimary}>{primaryButtonText}</Text>
             </TouchableOpacity>
           )}
 
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: colors.green,
+    backgroundColor: colors.red,
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.orange,
+    fontFamily: fonts.robotoBold,
+    textAlign: 'center',
+  },
+  buttonTextPrimary: {
+    color: colors.white,
     fontFamily: fonts.robotoBold,
     textAlign: 'center',
   },

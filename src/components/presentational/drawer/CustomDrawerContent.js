@@ -9,8 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteSession } from "../../../utils/db";
 import { useEffect, useState } from 'react';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
-import { db } from '../../../app/services/firebase/config';
+import { database, auth } from '../../../app/services/firebase/config';
 import { DrawerActions } from '@react-navigation/native';
 
 const CustomDrawerContent = (props) => {
@@ -21,6 +20,7 @@ const CustomDrawerContent = (props) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   const [profile, setProfile] = useState({});
   const user = auth().currentUser;
+  const db = database()
 
   useEffect(() => {
     if (user && user.uid) {
@@ -93,7 +93,6 @@ const CustomDrawerContent = (props) => {
       <Drawer.Section>
         <Text style={styles.textGroups}>Cuenta</Text>
         <DrawerItem navigation={navigation} activeRoute={activeRoute} route='Editar Perfil' icon='user' title='Editar Perfil' />
-        <DrawerItem navigation={navigation} activeRoute={activeRoute} route='Preferencias' icon='cog' title='Preferencias' />
         {idToken && (
           <Pressable style={styles.drawerButton} onPress={onLogout}>
             <DrawerIcon nameIcon="log-out" focused={activeRoute === 'Cerrar Sesion'} />

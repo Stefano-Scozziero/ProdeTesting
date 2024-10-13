@@ -5,7 +5,7 @@ import { OrientationContext } from '../../utils/globals/context'
 import LoadingSpinner from '../presentational/LoadingSpinner'
 import EmptyListComponent from '../presentational/EmptyListComponent'
 import Error from '../presentational/Error'
-import { db } from '../../app/services/firebase/config'
+import { database } from '../../app/services/firebase/config'
 
 
 const Categories = ({navigation}) => {
@@ -14,6 +14,7 @@ const Categories = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
   const portrait = useContext(OrientationContext)
+  const db = database();
 
   useEffect(() => {
     const categoriesRef = db.ref('/categories')

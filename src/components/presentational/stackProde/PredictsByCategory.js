@@ -7,8 +7,7 @@ import DatesByCategory from '../DatesByCategory';
 import { OrientationContext } from '../../../utils/globals/context';
 import colors from '../../../utils/globals/colors';
 import ModalAlert from '../modal/ModalAlert';
-import { db } from '../../../app/services/firebase/config';
-import auth from '@react-native-firebase/auth';
+import { database, auth } from '../../../app/services/firebase/config';
 import { useSelector } from 'react-redux';
 import ModalSelector from 'react-native-modal-selector';
 
@@ -26,6 +25,7 @@ const PredictsByCategory = ({ navigation }) => {
   const [pickerDataLoaded, setPickerDataLoaded] = useState(false);
   const [puntos, setPuntos] = useState({ eq1: {}, eq2: {} });
   const user = auth().currentUser;
+  const db = database();
   const [guardarPronosticos, setGuardarPronosticos] = useState(false);
   const [partidosEditados, setPartidosEditados] = useState({});
   

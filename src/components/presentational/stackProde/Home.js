@@ -25,35 +25,35 @@ const Home = React.memo(({ navigation }) => {
 
   return (
     <ImageBackground source={require('../../../../assets/fondodefinitivo.png')} style={[styles.main, !portrait && styles.mainLandScape]}>
-      <View style={styles.predictionContainer}>
+      <View style={[styles.predictionContainer, !portrait && styles.predictionContainerLandScape]}>
         <ImageLoader
           uri='https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Fmispredicciones.png?alt=media&token=ef9f815a-e80b-4f15-8981-4844c95695ad'
-          style={styles.predictionImage}
+          style={[styles.predictionImage, !portrait && styles.predictionImageLandScape]}
           onPress={() => navigation.navigate('Competencies')}
           loading={loading}
           setLoading={setLoading}
         />
       </View>
-      <View style={styles.buttonRow}>
+      <View style={[styles.buttonRow, !portrait && styles.buttonRowLandScape]}>
         <ImageLoader
           uri='https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Ftabladelideres.png?alt=media&token=6774c721-7422-40e7-b2e4-5373e17b50fe'
-          style={styles.predictionImageRow}
+          style={[styles.predictionImageRow, !portrait && styles.predictionImageRowLandScape]}
           onPress={() => navigation.navigate('LeaderBoard')}
           loading={loading}
           setLoading={setLoading}
         />
         <ImageLoader
           uri='https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Ffixture.png?alt=media&token=299cb20e-6a51-4078-9ecd-374514047aaa'
-          style={styles.predictionImageRow}
+          style={[styles.predictionImageRow, !portrait && styles.predictionImageRowLandScape]}
           onPress={() => navigation.navigate('Fixture')}
           loading={loading}
           setLoading={setLoading}
         />
       </View>
-      <View style={styles.predictionContainer}>
+      <View style={[styles.predictionContainer, !portrait && styles.predictionContainerLandScape]}>
         <ImageLoader
           uri='https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Fnoticias.png?alt=media&token=b6a17432-35b6-4845-9548-f4b8173c9401'
-          style={styles.predictionImage}
+          style={[styles.predictionImage, !portrait && styles.predictionImageLandScape]}
           onPress={() => navigation.navigate('News')}
           loading={loading}
           setLoading={setLoading}
@@ -70,9 +70,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-  },
-  mainLandScape: {
-    flexDirection: 'row',
   },
   predictionContainer: {
     width: width * 0.95,
@@ -95,5 +92,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  predictionContainerLandScape: {
+    width: width * 0.95,
+    height: width * 0.18,
+    top: height * 0.025,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  predictionImageLandScape: {
+    width: width * 0.90,
+    height: height * 0.25,
+    borderRadius: 10,
+  },
+  predictionImageRowLandScape: {
+    width: width * 0.440,
+    height: width * 0.15,
+    borderRadius: 10,
+  },
+  buttonRowLandScape: {
+    width: width * 0.90,
   },
 });

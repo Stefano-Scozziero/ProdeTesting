@@ -4,7 +4,7 @@ import InputForm from '../../components/presentational/inputText/InputForm'
 import fonts from '../../utils/globals/fonts'
 import colors from '../../utils/globals/colors'
 import SubmitButton from '../../components/presentational/buttons/SubmitButton'
-import auth from '@react-native-firebase/auth';
+import { auth } from '../../app/services/firebase/config';
 
 
 const ForgotYourPass = ({navigation}) => {

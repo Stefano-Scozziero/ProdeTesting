@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useRef } from 'react';
 import LoadingSpinner from '../LoadingSpinner';
 import EmptyListComponent from '../EmptyListComponent';
 import Error from '../Error';
-import { db } from '../../../app/services/firebase/config';
+import { database } from '../../../app/services/firebase/config';
 import colors from '../../../utils/globals/colors';
 import DatesByCategoryAdm from '../DatesByCategoryAdm';
 import { OrientationContext } from '../../../utils/globals/context';
@@ -27,6 +27,7 @@ const DatesLigue = () => {
   const dateSelectorRef = useRef(null)
   const [divisionOptions, setDivisionOptions] = useState([])
   const [tournamentOptions, setTournamentOptions] = useState([])
+  const db = database();
 
   useEffect(() => {
     const onValueChange = db.ref('/datos/fixture/').on('value', (snapshot) => {
