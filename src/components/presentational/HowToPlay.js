@@ -13,23 +13,23 @@ const HowToUseApp = ({ navigation }) => {
   const steps = [
     {
       title: 'Realizar Pronóstico:',
-      content: 'Desde el menu de inicio en la seccion Predicciones, encontraras las competiciones correspondientes, dandole click los llevara a la pantalla de la competicion y podran comenzar a jugar apostando que equipo ganara, luego cuando ya tengan las predicciones hechas con el boton guardar pronosticos se guardaran los datos.',
+      content: 'Accede a la sección "Predicciones" desde el menú principal. Selecciona una competición y haz tus apuestas sobre qué equipo crees que ganará. Una vez que hayas completado tus predicciones, pulsa el botón "Guardar Pronósticos" para registrar tu apuesta.',
     },
     {
       title: 'Fixture:',
-      content: 'Desde el menu de inicio y dandole click a fixture, podran ver todas las fechas jugadas para la competicion elegida previamente',
+      content: 'Desde el menú principal, selecciona la opción "Fixture" para consultar todas las fechas de los partidos jugados y por jugar en la competición elegida.',
     },
     {
-      title: 'Tabla de Lideres:',
-      content: 'Desde el menu de inicio y dandole click a tabla de lideres, podran ver las puntuaciones de los equipos para la competencia seleccionada.',
+      title: 'Tabla de Líderes:',
+      content: 'En el menú principal, accede a "Tabla de Líderes" para visualizar las posiciones y puntuaciones de los equipos participantes en la competición seleccionada.',
     },
     {
       title: 'Noticias:',
-      content: 'Desde el menu de inicio y dandole click a noticias, podran ver los estados de los partidos en tiempo real.',
+      content: 'En la sección "Noticias", disponible desde el menú principal, podrás ver actualizaciones en tiempo real sobre los resultados y el estado de los partidos.',
     },
     {
       title: 'Compartir:',
-      content: 'Desde el menu desplegable y dandole click a compartir, podran compartir sus predicciones con sus amigos.',
+      content: 'En el menú desplegable, selecciona "Compartir" para enviar tus predicciones a amigos y animarlos a participar contigo.',
     },
   ];
 
