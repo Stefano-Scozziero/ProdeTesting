@@ -7,6 +7,7 @@ const Header = ({title= "ProdeSco", navigation, children}) => {
 
   const portrait = useContext(OrientationContext)
 
+
   return (
     <View style={[styles.container, !portrait && styles.containerLandScape]}>
       
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
 
     container:{
       backgroundColor: colors.orange,
-      height: 80,
+      height: 90,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       width: '100%',
       justifyContent: 'center',

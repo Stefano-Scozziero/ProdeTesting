@@ -13,6 +13,8 @@ import fonts from '../../utils/globals/fonts';
 import { db, storage } from '../../app/services/firebase/config'; // Asegúrate de que db y storage estén bien importados
 import auth from '@react-native-firebase/auth';
 import ModalCamera from './modal/ModalCamera';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 
 const Profile = () => {
     const [username, setUsername] = useState('');
@@ -49,7 +51,7 @@ const Profile = () => {
     const handlerCloseModalCamera = () => setModalCameraVisible(false);
 
     // Función para elegir una imagen desde la cámara o la galería
-    const pickImage = async (camera) => {
+    const pickImage = async (camera, cameraType = ImagePicker.CameraType.front) => {
         let result;
         if (camera) {
             result = await ImagePicker.launchCameraAsync({
@@ -57,7 +59,8 @@ const Profile = () => {
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 0.8,
-                base64: true
+                base64: true,
+                cameraType: cameraType, // Especifica el tipo de cámara
             });
         } else {
             result = await ImagePicker.launchImageLibraryAsync({
@@ -68,9 +71,19 @@ const Profile = () => {
                 base64: true
             });
         }
-
+    
         if (!result.canceled) {
-            const imageBase64 = 'data:image/jpeg;base64,' + result.assets[0].base64;
+            let imageBase64 = result.assets[0].base64;
+            // Verifica si se usó la cámara frontal para voltear la imagen
+            if (camera && cameraType === ImagePicker.CameraType.front) {
+                const manipulatedImage = await ImageManipulator.manipulateAsync(
+                    result.assets[0].uri,
+                    [{ flip: ImageManipulator.FlipType.Horizontal }],
+                    { base64: true }
+                );
+                imageBase64 = manipulatedImage.base64;
+            }
+            imageBase64 = 'data:image/jpeg;base64,' + imageBase64;
             updateProfileImage(imageBase64);
         }
         setModalCameraVisible(false);

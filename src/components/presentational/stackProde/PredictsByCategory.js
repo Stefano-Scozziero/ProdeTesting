@@ -204,7 +204,11 @@ const PredictsByCategory = ({ navigation }) => {
         .map(key => ({ key, label: key }))
         .sort((a, b) => a.label.localeCompare(b.label));
       setDivisionOptions(divisions);
-      setSelectedDivision(divisions.length > 0 ? divisions[0].key : null);
+  
+      // Solo actualizar selectedDivision si no está establecido o ya no es válido
+      if (!selectedDivision || !divisions.find(d => d.key === selectedDivision)) {
+        setSelectedDivision(divisions.length > 0 ? divisions[0].key : null);
+      }
     }
   }, [datos, categorySelected]);
 
@@ -216,11 +220,15 @@ const PredictsByCategory = ({ navigation }) => {
 
   useEffect(() => {
     if (datos && categorySelected && selectedDivision) {
-      const tournaments = Object.keys(datos?.[categorySelected]?.partidos?.[selectedDivision] || {})
+      const tournaments = Object.keys(datos?.[categorySelected]?.partidos[selectedDivision] || {})
         .map(key => ({ key, label: key }))
         .sort((a, b) => a.label.localeCompare(b.label));
       setTournamentOptions(tournaments);
-      setSelectedTournament(tournaments.length > 0 ? tournaments[0].key : null);
+  
+      // Solo actualizar selectedTournament si no está establecido o si ya no es válido
+      if (!selectedTournament || !tournaments.find(t => t.key === selectedTournament)) {
+        setSelectedTournament(tournaments.length > 0 ? tournaments[0].key : null);
+      }
     }
   }, [datos, categorySelected, selectedDivision]);
 

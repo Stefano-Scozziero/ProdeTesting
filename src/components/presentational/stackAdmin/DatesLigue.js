@@ -129,25 +129,29 @@ const DatesLigue = () => {
     if (datos && categorySelected) {
       const divisions = Object.keys(datos?.[categorySelected]?.partidos || {})
         .map(key => ({ key, label: key }))
-        .sort((a, b) => {
-          return a.label.localeCompare(b.label)
-        })
+        .sort((a, b) => a.label.localeCompare(b.label));
       setDivisionOptions(divisions);
-      setSelectedDivision(divisions.length > 0 ? divisions[0].key : null);
+  
+      // Solo actualizar selectedDivision si no está establecido o ya no es válido
+      if (!selectedDivision || !divisions.find(d => d.key === selectedDivision)) {
+        setSelectedDivision(divisions.length > 0 ? divisions[0].key : null);
+      }
     }
   }, [datos, categorySelected]);
 
   useEffect(() => {
     if (datos && categorySelected && selectedDivision) {
       const tournaments = Object.keys(datos?.[categorySelected]?.partidos[selectedDivision] || {})
-      .map(key => ({ key, label: key }))
-      .sort((a, b) => {
-        return a.label.localeCompare(b.label)
-      })
-      setTournamentOptions(tournaments)
-      setSelectedTournament(tournaments.length > 0 ? tournaments[0].key : null)
+        .map(key => ({ key, label: key }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+      setTournamentOptions(tournaments);
+  
+      // Solo actualizar selectedTournament si no está establecido o si ya no es válido
+      if (!selectedTournament || !tournaments.find(t => t.key === selectedTournament)) {
+        setSelectedTournament(tournaments.length > 0 ? tournaments[0].key : null);
+      }
     }
-  }, [datos, categorySelected, selectedDivision])
+  }, [datos, categorySelected, selectedDivision]);
 
   const dateOptions = categorySelected && datos?.[categorySelected]?.partidos?.[selectedDivision]?.[selectedTournament]
   ? Object.keys(datos?.[categorySelected]?.partidos[selectedDivision][selectedTournament])

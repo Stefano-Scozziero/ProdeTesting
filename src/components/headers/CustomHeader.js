@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { Pressable } from 'react-native'
 import {Entypo, AntDesign} from '@expo/vector-icons'
 import React from 'react'
 import Header from './Header';
@@ -16,7 +16,7 @@ const CustomHeader = React.memo(({ title, navigation }) => {
         color={colors.black}
       />
       {isGoBackVisible && 
-        <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+        <Pressable onPress={() => navigation.goBack()}>
           <AntDesign name='arrowleft' size={30} color="white"/>
         </Pressable>}
     </Header>
@@ -24,5 +24,3 @@ const CustomHeader = React.memo(({ title, navigation }) => {
 })
 
 export default CustomHeader
-
-const styles = StyleSheet.create({})
