@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderRadius: 5,
     padding: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   containerMatching: {
     width: '100%',
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   headerLabel: {
     color: colors.white,
@@ -220,11 +220,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '95%'
+    width: '100%', // Asegúrate de usar el 100% del contenedor padre
+    paddingHorizontal: 10,
   },
   containerMatch: {
-    width: 100,
-    alignItems: 'center',
+    flex: 1, // Usa flex para distribución equitativa
+    alignItems: 'center'
   },
   teamContainer: {
     alignItems: 'center',
@@ -234,8 +235,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   teamName: {
-    width: 90,
-    fontSize: 10,
+    fontSize: 9,
     color: colors.white,
     textAlign: 'center',
     marginTop: 5,
