@@ -25,7 +25,7 @@ const BallAnimation = () => {
     <View style={{ alignItems: 'center'}}>
       <Animated.Image
         source={require('../../../../assets/pelota.png')}
-        style={{ width: 20, height: 20, transform: [{ rotate: spin }] }}
+        style={{ width: 25, height: 25, transform: [{ rotate: spin }] }}
       />
     </View>
   )

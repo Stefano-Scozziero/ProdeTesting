@@ -21,7 +21,7 @@ const CustomDrawerContent = (props) => {
   const [profile, setProfile] = useState({});
   const user = auth().currentUser;
   const db = database()
-
+  
   useEffect(() => {
     if (user && user.uid) {
       const profileRef = db.ref(`/profiles/${user.uid}`);
@@ -35,10 +35,12 @@ const CustomDrawerContent = (props) => {
       }, error => {
         console.error(error);
       });
+      
       return () => profileRef.off('value'); // Cleanup del listener
     }
   }, [user]);
 
+ 
   const onLogout = async () => {
     try {
       if (profile?.email !== null) {
@@ -72,7 +74,9 @@ const CustomDrawerContent = (props) => {
           />
           <Text style={styles.profileText}>{profile?.username || user?.displayName || "Nombre de Usuario"}</Text>
           <Text style={styles.profileText}>{profile?.email || user?.email || "Correo Electrónico"}</Text>
+          <Text style={styles.boletosText}>BOLETOS: {profile?.boletos || 0}</Text>
         </View>
+        
       </View>
       
       <Drawer.Section>
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
     height: '90%',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    padding: 10,
+    padding: 10
   },
   profileImage: {
     width: 80,
@@ -135,6 +139,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: colors.white,
     paddingTop: 5
+  },
+  boletosText: {
+    width: '100%',
+    textAlign: 'left',
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: colors.white,
+    paddingTop: 5,
   },
   containerHeader: {
     flex: 1,

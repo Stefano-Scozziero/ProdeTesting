@@ -165,7 +165,7 @@ const Login = ({navigation}) =>  {
             <Text style={styles.title}>PRODESCO</Text>
             <View style={styles.container}>
               <InputForm
-                  label="Correo Electronico"
+                  label="Correo Electrónico"
                   value={email}
                   onChangeText={(t) => setEmail(t)}
                   isSecure={false}
@@ -179,9 +179,9 @@ const Login = ({navigation}) =>  {
                   isSecure={true}
                   error={errorPassword}
               />
-              <SubmitButton  onPress={onSubmit} title="INICIAR SESION"/>
+              <SubmitButton  onPress={onSubmit} title="INICIAR SESIÓN"/>
               
-              <SubmitButtonBgn onPress={()=> navigation.navigate("Register")} title="REGISTRESE AQUI"/>
+              <SubmitButtonBgn onPress={()=> navigation.navigate("Register")} title="REGÍSTRESE AQUÍ"/>
               <Pressable onPress={()=> navigation.navigate("ForgotYourPass")}>
                 <Text style={styles.btnText}>¿Olvidó su contraseña?</Text>
               </Pressable> 
