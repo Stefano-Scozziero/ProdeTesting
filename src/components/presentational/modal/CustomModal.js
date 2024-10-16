@@ -12,8 +12,7 @@ const CustomModal = ({
   modalVisible,
   onClose,
   animationType = 'fade',
-  icons = [], // Arreglo opcional para manejar varios iconos
-  children // Contenido personalizado opcional
+  children
 }) => {
   return (
     <Modal
@@ -24,19 +23,9 @@ const CustomModal = ({
     >
       <View style={styles.container}>
         <View style={styles.content}>
-          {/* Mostrar iconos si se pasan */}
-          <View style={styles.iconContainer}>
-            {icons.map((icon, index) => (
-              <View key={index} style={styles.iconWrapper}>
-                {icon}
-              </View>
-            ))}
-          </View>
 
-          {/* Mostrar texto si se pasa */}
           {text && <Text style={styles.text}>{text}</Text>}
 
-          {/* Contenido personalizado */}
           {children}
 
           {/* Mostrar botón principal si se pasa el texto */}
@@ -62,55 +51,59 @@ export default CustomModal;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: 'rgba(0,0,0,0.5)', // Fondo más suave para mayor legibilidad
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   content: {
-    width: '90%',
+    width: '85%', // Ancho un poco mayor
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.orange,
+    backgroundColor: colors.white, // Fondo blanco o más suave
     padding: 30,
     gap: 20,
-    borderRadius: 5,
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-  },
-  iconWrapper: {
-    alignItems: 'center',
-    marginHorizontal: 10,
+    borderRadius: 15, // Bordes más redondeados
+    shadowColor: '#000', // Sombra suave para darle profundidad
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   },
   text: {
-    fontSize: 16,
-    color: colors.white,
+    width: '100%',
+    fontSize: 22, // Tamaño de fuente un poco mayor
+    color: colors.black, // Un color más contrastante para el texto
     fontFamily: fonts.robotoBold,
-    textAlign: 'center',
+    textAlign: 'left', // Centramos el texto
+    marginBottom: 10, // Espacio entre el texto y el resto de los elementos
   },
   button: {
     backgroundColor: colors.red,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    padding: 12, // Botones más grandes
+    borderRadius: 8, // Bordes más redondeados en los botones
+    marginTop: 15,
+    width: '80%', // Botones más anchos
   },
   buttonSecondary: {
     backgroundColor: colors.white,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 15,
+    width: '80%',
+    borderColor: colors.orange, // Añadimos borde para mayor visibilidad
+    borderWidth: 2,
   },
   buttonText: {
     color: colors.orange,
     fontFamily: fonts.robotoBold,
     textAlign: 'center',
+    fontSize: 16,
   },
   buttonTextPrimary: {
     color: colors.white,
     fontFamily: fonts.robotoBold,
     textAlign: 'center',
+    fontSize: 16,
   },
 });

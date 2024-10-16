@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
-import { View, StyleSheet, Text, FlatList, Touchable } from 'react-native'
+import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
 import LoadingSpinner from '../presentational/LoadingSpinner'
 import EmptyListComponent from '../presentational/EmptyListComponent'
 import Error from '../presentational/Error'
@@ -7,11 +7,11 @@ import { OrientationContext } from '../../utils/globals/context'
 import ModalSelector from 'react-native-modal-selector'
 import CardFixture from '../presentational/CardFixture'
 import { database } from '../../app/services/firebase/config'
+import { useSelector } from 'react-redux';
 import colors from '../../utils/globals/colors'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const FixtureDates = ({ navigation }) => {
-  const [categorySelected, setCategorySelected] = useState('Liga Casildense')
+  const categorySelected = useSelector(state => state.category.selectedCategory);
   const [datos, setDatos] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)

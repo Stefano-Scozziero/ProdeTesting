@@ -8,11 +8,12 @@ import ModalSelector from 'react-native-modal-selector'
 import { database } from '../../../app/services/firebase/config'
 import colors from '../../../utils/globals/colors'
 import DatesByLeader from '../DatesByLeader'
+import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get('window')
 
 const LeaderBoard = ({ navigation }) => {
-  const [categorySelected, setCategorySelected] = useState('Liga Casildense')
+  const categorySelected = useSelector(state => state.category.selectedCategory);
   const [datos, setDatos] = useState(null)
   const [datos1, setDatos1] = useState(null)
   const [equipos, setEquipos] = useState({})

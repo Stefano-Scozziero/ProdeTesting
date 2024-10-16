@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Pressable, Image, ImageBackground, Keyboard } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteSession, fetchSession } from '../utils/db'

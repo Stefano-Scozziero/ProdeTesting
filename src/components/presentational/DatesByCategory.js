@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 5,
-    padding: 5,
+    padding: 2,
     marginBottom: 10
   },
   containerMatching: {
@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 5,
     marginBottom: 10
   },
   headerLabel: {
@@ -220,11 +219,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%', // Asegúrate de usar el 100% del contenedor padre
-    paddingHorizontal: 10,
+    width: '100%',
   },
   containerMatch: {
-    flex: 1, // Usa flex para distribución equitativa
+    flex: 1, 
     alignItems: 'center'
   },
   teamContainer: {
@@ -235,7 +233,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   teamName: {
-    fontSize: 9,
+    fontSize: 10,
     color: colors.white,
     textAlign: 'center',
     marginTop: 5,
@@ -293,14 +291,13 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     alignItems: 'center',
-    padding: 10,
     width: '40%'
   },
   resultContainerPro: {
     alignItems: 'center',
     backgroundColor: colors.white,
     borderRadius: 5,
-    width: '100%',
+    width: '80%',
     marginVertical: 5,
     padding: 5
   },
