@@ -205,7 +205,7 @@ const DatesLigue = () => {
   };
   
   if (isLoading) return <LoadingSpinner message={'Cargando Datos...'} />;
-  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar" onRetry={() => navigation.navigate('Competencies')} />;
+  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar"  />;
   if (!datos || Object.keys(datos).length === 0) return <EmptyListComponent message="No hay datos disponibles" />;
 
 

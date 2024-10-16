@@ -1,12 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {TouchableOpacity, StyleSheet, ImageBackground, Image, View, Dimensions, FlatList, Text, ActivityIndicator} from 'react-native';
+import { 
+  TouchableOpacity, 
+  StyleSheet, 
+  ImageBackground, 
+  Image, 
+  View, 
+  Dimensions, 
+  FlatList, 
+  Text, 
+  ActivityIndicator 
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories, setSelectedCategory } from '../../../features/category/categorySlice';
 import { closeCategoriesModal, openCategoriesModal } from '../../../features/slice/uiSlice';
 import { OrientationContext } from '../../../utils/globals/context';
-import colors from '../../../utils/globals/colors'
+import colors from '../../../utils/globals/colors';
 import ImageAnimation from '../animation/ImageAnimation';
-import CustomModal from '../modal/CustomModal'; // Importa tu modal personalizado
+import CustomModal from '../modal/CustomModal'; 
+import { CheckBox } from 'react-native-elements'; 
 
 const { width, height } = Dimensions.get('window');
 
@@ -44,11 +55,13 @@ const Home = React.memo(({ navigation }) => {
   };
 
   const handleCategorySelect = (category) => {
-    dispatch(setSelectedCategory(category.title));
-    dispatch(closeCategoriesModal());
-    if (intendedNavigation) {
-      navigation.navigate(intendedNavigation);
-      setIntendedNavigation(null);
+    if (selectedCategory !== category.title) {
+      dispatch(setSelectedCategory(category.title));
+      dispatch(closeCategoriesModal());
+      if (intendedNavigation) {
+        navigation.navigate(intendedNavigation);
+        setIntendedNavigation(null);
+      }
     }
   };
 
@@ -61,7 +74,14 @@ const Home = React.memo(({ navigation }) => {
         <ImageLoader
           uri="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Fmispredicciones.png?alt=media&token=ef9f815a-e80b-4f15-8981-4844c95695ad"
           style={[styles.predictionImage, !portrait && styles.predictionImageLandScape]}
-          onPress={() => navigation.navigate('Competencies')}
+          onPress={() => {
+            if (!selectedCategory) {
+              setIntendedNavigation('PredictsByCategory');
+              dispatch(openCategoriesModal());
+            } else {
+              navigation.navigate('PredictsByCategory');
+            }
+          }}
           loading={loading}
           setLoading={setLoading}
         />
@@ -128,13 +148,30 @@ const Home = React.memo(({ navigation }) => {
         {categoriesStatus === 'succeeded' && (
           <FlatList
             data={categories}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleCategorySelect(item)} style={styles.categoryItem}>
-                <Text style={styles.categoryText}>{item.title}</Text>
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={<Text>No hay categorías disponibles.</Text>}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => {
+              const isSelected = selectedCategory === item.title;
+              return (
+                <TouchableOpacity 
+                  onPress={() => handleCategorySelect(item)} 
+                  style={styles.categoryItemContainer}
+                >
+                  <CheckBox
+                    checked={isSelected}
+                    onPress={() => handleCategorySelect(item)}
+                    containerStyle={styles.checkboxContainer}
+                    checkedColor={colors.orange}
+                    uncheckedIcon="circle-o"       // Icono circular deseleccionado
+                    checkedIcon="dot-circle-o"     // Icono circular seleccionado
+                    iconType="font-awesome"        // Tipo de icono
+                  />
+                  <Text style={[styles.categoryText, isSelected && styles.selectedCategoryText]}>
+                    {item.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+            ListEmptyComponent={<Text>No hay Competencias disponibles.</Text>}
           />
         )}
       </CustomModal>
@@ -192,7 +229,7 @@ const styles = StyleSheet.create({
   buttonRowLandScape: {
     width: width * 0.90,
   },
-  // Estilos para el modal
+  
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -212,14 +249,30 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-  categoryItem: {
+  categoryItemContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center', 
+    
     paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.blackgray,
+  },
+  checkboxContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    margin: 0,
   },
   categoryText: {
     fontSize: 18,
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 10,
+    color: colors.black, 
+    
+  },
+  selectedCategoryText: {
+    color: colors.orange, 
+    
+    fontWeight: 'bold',
   },
   closeButton: {
     marginTop: 20,
