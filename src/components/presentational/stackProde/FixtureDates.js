@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
 import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
-import LoadingSpinner from '../presentational/LoadingSpinner'
-import EmptyListComponent from '../presentational/EmptyListComponent'
-import Error from '../presentational/Error'
-import { OrientationContext } from '../../utils/globals/context'
+import LoadingSpinner from '../LoadingSpinner'
+import EmptyListComponent from '../EmptyListComponent'
+import Error from '../Error'
+import { OrientationContext } from '../../../utils/globals/context'
 import ModalSelector from 'react-native-modal-selector'
-import CardFixture from '../presentational/CardFixture'
-import { database } from '../../app/services/firebase/config'
+import CardFixture from '../CardFixture'
+import { database } from '../../../app/services/firebase/config'
 import { useSelector } from 'react-redux';
-import colors from '../../utils/globals/colors'
+import colors from '../../../utils/globals/colors'
 
 const FixtureDates = ({ navigation }) => {
   const categorySelected = useSelector(state => state.category.selectedCategory);
@@ -121,54 +121,55 @@ const FixtureDates = ({ navigation }) => {
   )
 
   if (isLoading) return <LoadingSpinner message={'Cargando Datos...'} />
-  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar" onRetry={() => navigation.navigate('Competencies')} />
+  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar" onRetry={() => navigation.navigate('Home')} />
   if (!datos) return <EmptyListComponent message="No hay datos disponibles" />
 
   return (
     <View style={[styles.container, !portrait && styles.landScape]}>
       <View style={styles.containerPicker}>
-        <View style={styles.containerText}>
-        <TouchableOpacity style={styles.touchableContainer} onPress={() => divisionSelectorRef.current.open()}>
-          <ModalSelector
-            data={divisionOptions}
-            initValue={selectedDivision}
-            onChange={(option) => setSelectedDivision(option.key)}
-            style={styles.picker}
-            optionTextStyle={styles.pickerText}
-            selectStyle={{ borderWidth: 0 }}
-            selectedItem={selectedDivision}
-            selectedItemTextStyle={styles.selectedItem}
-            initValueTextStyle={styles.initValueTextStyle}
-            animationType='fade'
-            cancelText='Salir'
-            cancelTextStyle={{ color: colors.black }}
-            ref={divisionSelectorRef}
-          />
-          <Text style={styles.pickerArrow}>▼</Text>
-        </TouchableOpacity>
-          
-        </View>
-        <View style={styles.containerText}>
-        <TouchableOpacity style={styles.touchableContainer} onPress={() => tournamentSelectorRef.current.open()}>
-          <ModalSelector
-            data={tournamentOptions}
-            initValue={selectedTournament}
-            onChange={(option) => setSelectedTournament(option.key)}
-            optionTextStyle={styles.pickerText}
-            style={styles.picker}
-            selectStyle={{ borderWidth: 0 }}
-            selectedItem={selectedTournament}
-            selectedItemTextStyle={styles.selectedItem}
-            initValueTextStyle={styles.initValueTextStyle}
-            animationType='fade'
-            cancelText='Salir'
-            cancelTextStyle={{ color: colors.black }}
-            ref={tournamentSelectorRef}
-          />
-          <Text style={styles.pickerArrow}>▼</Text>
-        </TouchableOpacity>
-          
-        </View>
+        {/* Selector de División */}
+        <ModalSelector
+          data={divisionOptions}
+          initValue={selectedDivision || 'Selecciona División'}
+          onChange={(option) => setSelectedDivision(option.key)}
+          style={styles.picker}
+          optionTextStyle={styles.pickerText}
+          selectedItemTextStyle={styles.selectedItem}
+          initValueTextStyle={styles.initValueTextStyle}
+          animationType='fade'
+          cancelText='Salir'
+          cancelTextStyle={{ color: colors.black }}
+          ref={divisionSelectorRef}
+          accessible={true}
+          touchableAccessible={true}
+        >
+          <TouchableOpacity style={styles.touchableContainer}>
+            <Text style={styles.selectedItemText}>{selectedDivision || 'Selecciona División'}</Text>
+            <Text style={styles.pickerArrow}>▼</Text>
+          </TouchableOpacity>
+        </ModalSelector>
+
+        {/* Selector de Torneo */}
+        <ModalSelector
+          data={tournamentOptions}
+          initValue={selectedTournament || 'Selecciona Torneo'}
+          onChange={(option) => setSelectedTournament(option.key)}
+          style={styles.picker}
+          optionTextStyle={styles.pickerText}
+          selectedItemTextStyle={styles.selectedItem}
+          initValueTextStyle={styles.initValueTextStyle}
+          animationType='fade'
+          cancelText='Salir'
+          cancelTextStyle={{ color: colors.black }}
+          ref={tournamentSelectorRef}
+          accessible={true}
+          touchableAccessible={true}
+        >
+          <TouchableOpacity style={styles.touchableContainer}>
+            <Text style={styles.selectedItemText}>{selectedTournament || 'Selecciona Torneo'}</Text>
+            <Text style={styles.pickerArrow}>▼</Text>
+          </TouchableOpacity>
+        </ModalSelector>
       </View>
       <View style={styles.containerFlatlist}>
         <FlatList
@@ -198,40 +199,37 @@ const styles = StyleSheet.create({
     height: '60%',
   },
   containerPicker: {
-    width: '100%',
+    width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 10,
   },
-  containerText: {
-    width: '95%',
-    marginVertical: 5,
+  touchableContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 15,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.orange,
-    alignItems: 'center', 
     backgroundColor: colors.white,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    borderColor: colors.gray,
-    flexDirection: 'row',
-    justifyContent: 'space-between', 
-    paddingHorizontal: 20
-  },
-  touchableContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    borderColor: colors.orange,
+    borderWidth: 1,
   },
   selectedItem: {
     color: colors.orange,
   },
+  selectedItemText: {
+    color: colors.black,
+    fontSize: 16,
+  },
   picker: {
     width: '100%',
     borderRadius: 10,
+    marginVertical: 5,
   },
   pickerText: {
     color: colors.black,
@@ -239,6 +237,7 @@ const styles = StyleSheet.create({
   },
   initValueTextStyle: {
     color: colors.black,
+    fontSize: 16,
   },
   pickerArrow: {
     color: colors.black,

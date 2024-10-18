@@ -7,7 +7,7 @@ import colors from '../../utils/globals/colors';
 import { useDispatch } from 'react-redux';
 import { openCategoriesModal } from '../../features/slice/uiSlice'; // Ajusta la ruta según tu estructura
 
-const CustomHeader = React.memo(({ title, navigation, showExtraIcon }) => {
+const CustomHeader = React.memo(({ title, navigation, showExtraIcon, isHome }) => {
   const isGoBackVisible = navigation.canGoBack() && navigation.getState().routes.length > 1;
   const dispatch = useDispatch();
 
@@ -22,11 +22,11 @@ const CustomHeader = React.memo(({ title, navigation, showExtraIcon }) => {
       />
       
       {/* Ícono de retroceso (si es aplicable) */}
-      {isGoBackVisible && 
+      {!isHome && isGoBackVisible && (
         <Pressable onPress={() => navigation.goBack()}>
-          <AntDesign name='arrowleft' size={30} color="white"/>
+          <AntDesign name='arrowleft' size={30} color="white" />
         </Pressable>
-      }
+      )}
       
       {/* Ícono adicional para listar categorías (solo en Home) */}
       {showExtraIcon && (

@@ -298,8 +298,8 @@ const PredictsByCategory = ({ navigation }) => {
   }, [selectedDate, datos, categorySelected, selectedDivision, selectedTournament]);
 
   if (isLoading) return <LoadingSpinner message={'Cargando Datos...'} />;
-  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar" onRetry={() => navigation.navigate('Competencies')} />;
-  if (!datos || Object.keys(datos).length === 0) return <EmptyListComponent message="No hay datos disponibles" />;
+  if (isError) return <Error message="¡Ups! Algo salió mal." textButton="Recargar" onRetry={() => navigation.navigate('Home')} />;
+  if (!datos) return <EmptyListComponent message="No hay datos disponibles" />
 
   
   return (

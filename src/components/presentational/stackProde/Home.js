@@ -50,6 +50,13 @@ const Home = React.memo(({ navigation }) => {
     }
   }, [categoriesStatus, dispatch]);
 
+  // **Nuevo useEffect para seleccionar la primera categoría automáticamente**
+  useEffect(() => {
+    if (categoriesStatus === 'succeeded' && categories.length > 0 && !selectedCategory) {
+      dispatch(setSelectedCategory(categories[0].title));
+    }
+  }, [categoriesStatus, categories, selectedCategory, dispatch]);
+
   const onRetry = () => {
     dispatch(fetchCategories());
   };
@@ -76,10 +83,10 @@ const Home = React.memo(({ navigation }) => {
           style={[styles.predictionImage, !portrait && styles.predictionImageLandScape]}
           onPress={() => {
             if (!selectedCategory) {
-              setIntendedNavigation('PredictsByCategory');
+              setIntendedNavigation('Predictions');
               dispatch(openCategoriesModal());
             } else {
-              navigation.navigate('PredictsByCategory');
+              navigation.navigate('Predictions');
             }
           }}
           loading={loading}
@@ -87,16 +94,16 @@ const Home = React.memo(({ navigation }) => {
         />
       </View>
 
-      <View style={[styles.buttonRow, !portrait && styles.buttonRowLandScape]}>
+      <View style={[styles.predictionContainerRow, !portrait && styles.predictionContainerRowLandScape]}>
         <ImageLoader
           uri="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Ftabladelideres.png?alt=media&token=6774c721-7422-40e7-b2e4-5373e17b50fe"
           style={[styles.predictionImageRow, !portrait && styles.predictionImageRowLandScape]}
           onPress={() => {
             if (!selectedCategory) {
-              setIntendedNavigation('LeaderBoard');
+              setIntendedNavigation('Leader');
               dispatch(openCategoriesModal());
             } else {
-              navigation.navigate('LeaderBoard');
+              navigation.navigate('Leader');
             }
           }}
           loading={loading}
@@ -113,6 +120,16 @@ const Home = React.memo(({ navigation }) => {
               navigation.navigate('Fixture');
             }
           }}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      </View>
+      
+      <View style={[styles.predictionContainer, !portrait && styles.predictionContainerLandScape]}>
+        <ImageLoader
+          uri="https://firebasestorage.googleapis.com/v0/b/prodesco-6910f.appspot.com/o/ClubesLigaCas%2Fkeys.png?alt=media&token=30c64f04-0bbf-433a-a11f-1d281f081c51"
+          style={[styles.predictionImage, !portrait && styles.predictionImageLandScape]}
+          onPress={() => navigation.navigate('Keys')}
           loading={loading}
           setLoading={setLoading}
         />
@@ -183,31 +200,29 @@ export default Home;
 
 const styles = StyleSheet.create({
   main: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     alignItems: 'center',
   },
   predictionContainer: {
     width: width * 0.95,
-    height: width * 0.45,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: height * 0.17,
+    marginTop: 10
+  },
+  predictionContainerRow: {
+    width: width * 0.95,
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'space-between'
   },
   predictionImage: {
     width: width * 0.95,
-    height: height * 0.2,
+    height: height * 0.17,
     borderRadius: 10,
   },
   predictionImageRow: {
     width: width * 0.465,
-    height: width * 0.45,
+    height: height * 0.17,
     borderRadius: 10,
-  },
-  buttonRow: {
-    width: width * 0.95,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   predictionContainerLandScape: {
     width: width * 0.95,
@@ -226,34 +241,13 @@ const styles = StyleSheet.create({
     height: width * 0.15,
     borderRadius: 10,
   },
-  buttonRowLandScape: {
+  predictionContainerRowLandScape: {
     width: width * 0.90,
-  },
-  
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    maxHeight: '80%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
   },
   categoryItemContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center', 
-    
     paddingVertical: 10,
   },
   checkboxContainer: {
@@ -267,11 +261,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginLeft: 10,
     color: colors.black, 
-    
   },
   selectedCategoryText: {
     color: colors.orange, 
-    
     fontWeight: 'bold',
   },
   closeButton: {

@@ -1,10 +1,10 @@
-import { StyleSheet,View,Image, ImageBackground, Text, Pressable, TouchableOpacity } from 'react-native'
+import { StyleSheet, ImageBackground } from 'react-native'
 import { OrientationContext } from '../../../utils/globals/context'
 import { useContext } from 'react'
-import NewsByCategory from './NewsByCategory'
+import KeysByCategory from './KeysByCategory'
 
 
-const News = ({navigation}) => {
+const Keys = ({navigation}) => {
 
 
   const portrait = useContext(OrientationContext)
@@ -14,13 +14,13 @@ const News = ({navigation}) => {
   return (
     <>
         <ImageBackground source={require('../../../../assets/fondodefinitivo.png')} style={[styles.main, !portrait && styles.mainLandScape]}>
-            <NewsByCategory navigation={navigation}/> 
+            <KeysByCategory navigation={navigation}/>  
         </ImageBackground>
     </>
     
 )}
 
-export default News
+export default Keys
 
 const styles = StyleSheet.create({
     main:{
@@ -29,5 +29,17 @@ const styles = StyleSheet.create({
     },
     mainLandScape:{
         flexDirection: 'row'
+    },
+    containerText: {
+        width: '90%',
+        height: 20,
+        alignItems: 'center', 
+        justifyContent: 'center',
+        marginVertical: 10,
+    },
+    text: {
+        fontSize: 25,
+        textAlign: 'center',
     }
+    
 })
